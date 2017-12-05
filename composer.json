@@ -1,0 +1,21 @@
+{
+    "name": "mimosafa/wp-entity-design",
+    "description": "Ease to design WordPress entity composition",
+    "type": "library",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Toshimichi Mimoto",
+            "email": "mimosafa@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mimosafa\\WP\\EntityDesign\\": "vendor/mimosafa/wp-entity-design/src/"
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "rappasoft/laravel-helpers": "dev-master"
+    }
+}

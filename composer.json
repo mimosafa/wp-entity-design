@@ -16,6 +16,6 @@
     },
     "require": {
         "php": ">=7.0",
-        "rappasoft/laravel-helpers": "dev-master"
+        "rappasoft/laravel-helpers": "dev-master#e5c03a1f493854e696669f3a757ff4d47a3020cf"
     }
 }

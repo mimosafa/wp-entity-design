@@ -89,8 +89,19 @@ abstract class Entity {
      * @param string $name name of Entity
      * @return Entity|null
      */
-    public static function get( string $name ) {
+    public static function getInstance( string $name ) {
         return static::$instances[$name] ?? null;
+    }
+
+    /**
+     * Get name of entity
+     *
+     * @access public
+     *
+     * @return string
+     */
+    public function getName(): string {
+        return $this->name;
     }
 
     /**

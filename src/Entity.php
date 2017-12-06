@@ -42,31 +42,42 @@ abstract class Entity {
     protected static $instances = [];
 
     /**
-     * Define entity
+     * Check {$name} entity exists
+     *
+     * @access public
+     * @static
+     *
+     * @param string $name
+     * @return bool
+     */
+    public static function exists( string $name ): bool {
+        return isset( static::$instances[$name] );
+    }
+
+    /**
+     * Make entity
      *
      * @access public
      * @static
      *
      * @param string $name Entity name
-     * @param array[]|string[] $args Variable-length argument for compatibility with other class
+     * @param array|string|Attributes\Attributes $args
      * @return Entity|null
      */
-    public static function make( string $name, ...$args ) {
+    public static function make( string $name, $args = [] ) {
         if ( ! $name = static::nameFilter( $name ) ) {
             # throw new \Exception();
             return;
         }
-        $_args = static::prepareArgs( $args );
+        if ( static::exists( $name ) ) {
+            # throw new \Exception();
+            return;
+        }
         $attrClass = str_replace( __NAMESPACE__, __NAMESPACE__ . '\\Attributes', get_called_class() );
-        if ( ! $instance = static::get( $name ) ) {
-            return static::$instances[$name] = new static( $name, new $attrClass( $_args ) );
+        if ( ! is_object( $args ) || is_a( $args, $attrClass ) ) {
+            $args = new $attrClass( wp_parse_args( $args ) );
         }
-        if ( $_args ) {
-            foreach ( $_args as $key => $value ) {
-                $instance->attr( $key, $value );
-            }
-        }
-        return $instance;
+        return static::$instances[$name] = new static( $name, $args );
     }
 
     /**
@@ -135,19 +146,6 @@ abstract class Entity {
             return false;
         }
         return $string;
-    }
-
-    /**
-     * Arguments preparation
-     *
-     * @access protected
-     * @static
-     *
-     * @param array[array] $argsArray
-     * @return array
-     */
-    protected static function prepareArgs( array $argsArray ): Array {
-        return $argsArray ? wp_parse_args( $argsArray[0] ) : [];
     }
 
 }

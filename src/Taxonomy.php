@@ -61,30 +61,4 @@ class Taxonomy extends Entity {
         return false;
     }
 
-    /**
-     * Arguments preparation
-     *
-     * @access protected
-     * @static
-     *
-     * @param array[array] $argsArray
-     * @return array
-     */
-    protected static function prepareArgs( array $argsArray ): Array {
-        if ( $argsArray ) {
-            if ( count( $argsArray ) > 1 ) {
-                // Maybe object_type
-                $maybe_object_type = array( $argsArray[0] );
-                $_args = wp_parse_args( $argsArray[1] );
-                if ( $maybe_object_type && $maybe_object_type === array_values( $maybe_object_type ) ) {
-                    $_args['object_type'] = $maybe_object_type;
-                }
-            }
-            else {
-                $_args = wp_parse_args( $argsArray[0] );
-            }
-        }
-        return $_args ?? [];
-    }
-
 }

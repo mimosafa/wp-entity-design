@@ -26,9 +26,9 @@ class Taxonomy extends Entity {
     /**
      * Taxonomy registration to system
      *
-     * @access protected
+     * @access public
      */
-    protected function register() {
+    public function register() {
         if ( self::$instances ) {
             foreach ( self::$instances as $instance ) {
                 $args = $instance->attributes->toArray();

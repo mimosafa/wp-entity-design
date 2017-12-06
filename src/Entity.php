@@ -93,7 +93,10 @@ abstract class Entity {
     protected function __construct( string $name, Attributes\Attributes $attributes ) {
         $this->name = $name;
         $this->attributes = $attributes;
-        add_action( 'init', [$this, 'init'], $this->priority );
+        if ( ! static::$once ) {
+            add_action( 'init', [$this, 'register'], $this->priority );
+            static::$once = true;
+        }
     }
 
     /**
@@ -111,24 +114,12 @@ abstract class Entity {
     }
 
     /**
-     * Initializing class
-     *
-     * @access public
-     */
-    public function init() {
-        if ( ! static::$once ) {
-            $this->register();
-            static::$once = true;
-        }
-    }
-
-    /**
      * Entity registration to system (This method called only once)
      *
-     * @access protected
+     * @access public
      * @abstract
      */
-    abstract protected function register();
+    abstract public function register();
 
     /**
      * Entity name string filter

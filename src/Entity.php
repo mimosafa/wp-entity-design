@@ -108,7 +108,7 @@ abstract class Entity {
      * @param mixed[] $values
      * @return static
      */
-    public function attr( string $key, ...$values ) {
+    public function set( string $key, ...$values ) {
         $this->attributes->set( $key, ...$values );
         return $this;
     }

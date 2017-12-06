@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Mimosafa\\WP\\EntityDesign\\": "vendor/mimosafa/wp-entity-design/src/"
+            "Mimosafa\\WP\\EntityDesign\\": "src/"
         }
     },
     "require": {

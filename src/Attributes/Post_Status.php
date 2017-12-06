@@ -71,19 +71,27 @@ class Post_Status extends Attributes {
      * @return void
      */
     public function set( string $key, ...$args ) {
+        if ( ! $key || ! $args ) {
+            return;
+        }
         if ( $key === 'label_count' ) {
-            if ( $args[0] ) {
-                if ( is_string( $args[0] ) ) {
-                    $this->label_count = _n_noop( $args[0] . ' <span class="count">(%s)</span>', $args[0] . ' <span class="count">(%s)</span>' );
-                }
-                else if ( is_array( $args[0] ) && count( $args[0] ) === 2 ) {
-                    $singular = array_shift( $args[0] );
-                    $plural = array_shift( $args[0] );
-                    if ( $singular && $plural && is_string( $singular ) && is_string( $plural ) ) {
-                        $this->label_count = _n_noop( $singular . ' <span class="count">(%s)</span>', $plural . ' <span class="count">(%s)</span>' );
-                    }
+            if ( is_string( $args[0] ) ) {
+                $this->label_count = _n_noop( $args[0] . ' <span class="count">(%s)</span>', $args[0] . ' <span class="count">(%s)</span>' );
+            }
+            else if ( is_array( $args[0] ) && count( $args[0] ) === 2 ) {
+                $singular = array_shift( $args[0] );
+                $plural = array_shift( $args[0] );
+                if ( $singular && $plural && is_string( $singular ) && is_string( $plural ) ) {
+                    $this->label_count = _n_noop( $singular . ' <span class="count">(%s)</span>', $plural . ' <span class="count">(%s)</span>' );
                 }
             }
+            return;
+        }
+        if ( $key === 'post_type' ) {
+            if ( ! isset( $this->post_type ) || ! is_array( $this->post_type ) ) {
+                (array) $this->post_type;
+            }
+            $this->post_type = array_unique( array_merge( $this->post_type, (array) $args[0] ) );
             return;
         }
         parent::set( $key, ...$args );

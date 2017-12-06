@@ -24,6 +24,40 @@ class Post_Type extends Entity {
     protected static $instances = [];
 
     /**
+     * Post_type attribute setter
+     *
+     * @access public
+     *
+     * @param string $key
+     * @param mixed[] $values
+     * @return self
+     */
+    public function set( string $key, ...$values ) {
+        if ( $values && in_array( $key, ['post_status', 'status'], true ) ) {
+            return $this->post_status( $values[0] );
+        }
+        return parent::set( $key, ...$values );
+    }
+
+    /**
+     * Bind post_status to $this
+     *
+     * @access public
+     *
+     * @param string|Post_Status $status
+     * @return self
+     */
+    public function post_status( $status ) {
+        if ( ! is_object( $status ) || ! $status instanceof Post_Status ) {
+            if ( ! $status || ! is_string( $status ) || ! $status = Post_Status::getInstance( $status ) ) {
+                return $this;
+            }
+        }
+        $status->set( 'post_type', $this->name );
+        return $this;
+    }
+
+    /**
      * Post_type registration to system
      *
      * @access public

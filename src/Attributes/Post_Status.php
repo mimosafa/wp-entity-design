@@ -71,9 +71,6 @@ class Post_Status extends Attributes {
      * @return void
      */
     public function set( string $key, ...$args ) {
-        if ( ! $key || ! $args ) {
-            return;
-        }
         if ( $key === 'label_count' ) {
             if ( is_string( $args[0] ) ) {
                 $this->label_count = _n_noop( $args[0] . ' <span class="count">(%s)</span>', $args[0] . ' <span class="count">(%s)</span>' );

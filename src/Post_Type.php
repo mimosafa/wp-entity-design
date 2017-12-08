@@ -33,7 +33,7 @@ class Post_Type extends Entity {
      * @return self
      */
     public function set( string $key, ...$values ) {
-        if ( $values && in_array( $key, ['post_status', 'post_statuses'], true ) ) {
+        if ( $key === 'post_status' ) {
             return $this->post_status( $values[0] );
         }
         return parent::set( $key, ...$values );
@@ -48,23 +48,26 @@ class Post_Type extends Entity {
      * @return self
      */
     public function post_status( $status ) {
-        static $hir = 0;
-        if ( is_array( $status ) ) {
-            if ( $hir > 0 ) {
+        static $depth = false;
+        if ( $status ) {
+            if ( is_array( $status ) ) {
+                if ( $depth ) {
+                    return $this;
+                }
+                $depth = true;
+                foreach ( $status as $ps ) {
+                    $this->post_status( $ps );
+                }
+                $depth = false;
                 return $this;
             }
-            $hir++;
-            foreach ( $status as $ps ) {
-                $this->post_status( $ps );
+            if ( ! is_object( $status ) || ! $status instanceof Post_Status ) {
+                if ( empty( $status ) || ! is_string( $status ) || ! $status = Post_Status::getInstance( $status ) ) {
+                    return $this;
+                }
             }
+            $status->set( 'post_type', $this->name );
         }
-        if ( ! is_object( $status ) || ! $status instanceof Post_Status ) {
-            if ( empty( $status ) || ! is_string( $status ) || ! $status = Post_Status::getInstance( $status ) ) {
-                return $this;
-            }
-        }
-        $status->set( 'post_type', $this->name );
-        $hir = 0;
         return $this;
     }
 

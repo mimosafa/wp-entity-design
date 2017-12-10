@@ -26,14 +26,6 @@ abstract class Entity {
     protected $attributes;
 
     /**
-     * Flag for initializing only once
-     * - This property must be sat each class
-     *
-     * @var bool
-     */
-    protected static $once = false;
-
-    /**
      * Container of instances
      * - This property must be sat each class
      *
@@ -115,10 +107,7 @@ abstract class Entity {
     protected function __construct( string $name, Attributes\Attributes $attributes ) {
         $this->name = $name;
         $this->attributes = $attributes;
-        if ( ! static::$once ) {
-            add_action( 'init', [$this, 'register'], $this->priority );
-            static::$once = true;
-        }
+        add_action( 'init', [$this, 'register'], $this->priority );
     }
 
     /**

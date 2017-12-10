@@ -12,11 +12,6 @@ class Taxonomy extends Entity {
     protected $priority = 1;
 
     /**
-     * @var bool
-     */
-    protected static $once = false;
-
-    /**
      * Container of instances
      *
      * @var array[Taxonomy]
@@ -29,21 +24,17 @@ class Taxonomy extends Entity {
      * @access public
      */
     public function register() {
-        if ( self::$instances ) {
-            foreach ( self::$instances as $instance ) {
-                $args = $instance->attributes->toArray();
-                $name = apply_filters( 'mimosafa_entity_design_taxonomy_name', $instance->name, $args );
-                $args = apply_filters( 'mimosafa_entity_design_taxonomy_args', $args, $instance->name );
-                if ( isset( $args['object_type'] ) ) {
-                    $object_type = $args['object_type'];
-                    unset( $args['object_type'] );
-                }
-                else {
-                    $object_type = [];
-                }
-                register_taxonomy( $name, $object_type, $args );
-            }
+        $args = $this->attributes->toArray();
+        $name = apply_filters( 'mimosafa_entity_design_taxonomy_name', $this->name, $args );
+        $args = apply_filters( 'mimosafa_entity_design_taxonomy_args', $args, $this->name );
+        if ( isset( $args['object_type'] ) ) {
+            $object_types = array_unique( array_filter( (array) $args['object_type'] ) );
+            unset( $args['object_type'] );
         }
+        else {
+            $object_types = [];
+        }
+        register_taxonomy( $name, $object_types, $args );
     }
 
     /**

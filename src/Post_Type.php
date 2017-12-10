@@ -12,11 +12,6 @@ class Post_Type extends Entity {
     protected $priority = 2;
 
     /**
-     * @var bool
-     */
-    protected static $once = false;
-
-    /**
      * Container of instances
      *
      * @var array[Post_Type]
@@ -77,14 +72,11 @@ class Post_Type extends Entity {
      * @access public
      */
     public function register() {
-        if ( self::$instances ) {
-            foreach ( self::$instances as $instance ) {
-                $args = $instance->attributes->toArray();
-                $name = apply_filters( 'mimosafa_entity_design_post_type_name', $instance->name, $args );
-                $args = apply_filters( 'mimosafa_entity_design_post_type_args', $args, $instance->name );
-                register_post_type( $name, $args );
-            }
-        }
+        $args = $this->attributes->toArray();
+        $name = apply_filters( 'mimosafa_entity_design_post_type_name', $this->name, $args );
+        $args = apply_filters( 'mimosafa_entity_design_post_type_args', $args, $this->name );
+        $args['taxonomies'] = array_unique( $this->taxonomies );
+        register_post_type( $name, $args );
     }
 
     /**

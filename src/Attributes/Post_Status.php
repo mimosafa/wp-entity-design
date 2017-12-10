@@ -39,6 +39,8 @@ class Post_Status extends Attributes {
      * Private attributes list
      */
     protected static $privateAttrs = [
+        'post_type',
+        // Built in
         '_builtin',
     ];
 

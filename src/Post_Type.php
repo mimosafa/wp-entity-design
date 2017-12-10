@@ -19,6 +19,26 @@ class Post_Type extends Entity {
     protected static $instances = [];
 
     /**
+     * Taxonomies
+     *
+     * @var array
+     */
+    private $taxonomies = [];
+
+    /**
+     * Constructor
+     *
+     * @access protected
+     *
+     * @param string $name
+     * @param Attributes\Post_Type $attrs
+     */
+    protected function __construct( string $name, Attributes\Post_Type $attributes ) {
+        parent::__construct( $name, $attributes );
+        add_filter( 'mimosafa_entity_design_taxonomy_args', [$this, 'taxonomy_args'], 10, 2 );
+    }
+
+    /**
      * Post_type attribute setter
      *
      * @access public
@@ -28,10 +48,45 @@ class Post_Type extends Entity {
      * @return self
      */
     public function set( string $key, ...$values ) {
+        if ( in_array( $key, ['taxonomy', 'taxonomies'], true ) ) {
+            return $this->taxonomy( $values[0] );
+        }
         if ( $key === 'post_status' ) {
             return $this->post_status( $values[0] );
         }
         return parent::set( $key, ...$values );
+    }
+
+    /**
+     * Bind taxonomy to $this
+     *
+     * @access public
+     *
+     * @param string|Taxonomy|array $status
+     * @return self
+     */
+    public function taxonomy( $taxonomy ) {
+        static $depth = false;
+        if ( $taxonomy ) {
+            if ( is_array( $taxonomy ) ) {
+                if ( $depth || $taxonomy !== array_values( $taxonomy ) ) {
+                    return $this;
+                }
+                $depth = true;
+                foreach ( $taxonomy as $tx ) {
+                    $this->taxonomy( $tx );
+                }
+                $depth = false;
+                return $this;
+            }
+            if ( $taxonomy instanceof Taxonomy ) {
+                $this->taxonomies[] = $taxonomy->getName();
+            }
+            else if ( is_string( $taxonomy ) ) {
+                $this->taxonomies[] = $taxonomy;
+            }
+        }
+        return $this;
     }
 
     /**
@@ -77,6 +132,27 @@ class Post_Type extends Entity {
         $args = apply_filters( 'mimosafa_entity_design_post_type_args', $args, $this->name );
         $args['taxonomies'] = array_unique( $this->taxonomies );
         register_post_type( $name, $args );
+    }
+
+    /**
+     * Registration $this for taxonomies
+     *
+     * @access public
+     *
+     * @param array $args Taxonomy's arguments
+     * @param string $name Taxonomy's name
+     * @return array
+     */
+    public function taxonomy_args( Array $args, string $name ) {
+        if ( $this->taxonomies && in_array( $name, $this->taxonomies, true ) ) {
+            if ( ! isset( $args['object_types'] ) || ! is_array( $args['object_types'] ) ) {
+                $args['object_types'] = [];
+            }
+            if ( in_array( $this->name, $args['object_types'], true ) ) {
+                $args['object_types'] = $this->name;
+            }
+        }
+        return $args;
     }
 
     /**

@@ -33,6 +33,8 @@ class Taxonomy extends Attributes {
 
     /**
      * Object types
+     *
+     * @var array
      */
     protected $object_types = [];
 
@@ -40,6 +42,8 @@ class Taxonomy extends Attributes {
      * Private attributes list
      */
     protected static $privateAttrs = [
+        'object_types',
+        // Built in
         '_builtin',
     ];
 

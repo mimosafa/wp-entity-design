@@ -27,7 +27,12 @@ class Post_Type extends Attributes {
     protected $map_meta_cap          = null;
     protected $supports              = [];
     protected $register_meta_box_cb  = null;
-    protected $taxonomies            = [];
+
+    /**
+     * @var array
+     */
+    protected $taxonomies = [];
+    
     protected $has_archive           = false;
     protected $rewrite               = true;
     protected $query_var             = true;
@@ -43,8 +48,10 @@ class Post_Type extends Attributes {
      * Private attributes list
      */
     protected static $privateAttrs = [
+        'taxonomies',
+        // Builtin params
         '_builtin',
-        '_edit_link'
+        '_edit_link',
     ];
 
     /**

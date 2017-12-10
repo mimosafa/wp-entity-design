@@ -154,13 +154,6 @@ class Post_Status extends Attributes {
             }
             return;
         }
-        if ( $key === 'post_type' ) {
-            if ( ! isset( $this->post_type ) || ! is_array( $this->post_type ) ) {
-                (array) $this->post_type;
-            }
-            $this->post_type = array_unique( array_merge( $this->post_type, (array) $args[0] ) );
-            return;
-        }
         parent::set( $key, ...$args );
     }
 

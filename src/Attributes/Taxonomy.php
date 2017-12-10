@@ -42,7 +42,6 @@ class Taxonomy extends Attributes {
      * Private attributes list
      */
     protected static $privateAttrs = [
-        'object_types',
         // Built in
         '_builtin',
     ];

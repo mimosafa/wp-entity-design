@@ -96,13 +96,7 @@ class Taxonomy extends Entity {
         $args = $this->attributes->toArray();
         $name = apply_filters( 'mimosafa_entity_design_taxonomy_name', $this->name, $args );
         $args = apply_filters( 'mimosafa_entity_design_taxonomy_args', $args, $this->name );
-        if ( isset( $args['object_type'] ) ) {
-            $object_types = array_unique( array_filter( (array) $args['object_type'] ) );
-            unset( $args['object_type'] );
-        }
-        else {
-            $object_types = [];
-        }
+        $object_types = array_unique( $this->object_types );
         register_taxonomy( $name, $object_types, $args );
     }
 

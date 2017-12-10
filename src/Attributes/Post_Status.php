@@ -11,29 +11,97 @@ class Post_Status extends Attributes {
      * @access protected
      * @see https://developer.wordpress.org/reference/functions/register_post_status/
      */
-    protected $label = false;
-    protected $label_count = false;
-    protected $exclude_from_search = null;
-    protected $_builtin = false;
-    protected $public = null;
-    protected $internal = null;
-    protected $protected = null;
-    protected $private = null;
-    protected $publicly_queryable = null;
-    protected $show_in_admin_status_list = null;
-    protected $show_in_admin_all_list = null;
+
+    /**
+     * @var bool|string
+     */
+    protected $label;
+
+    /**
+     * @var bool|array
+     */
+    protected $label_count;
+
+    /**
+     * @var bool
+     */
+    protected $exclude_from_search;
+
+    /**
+     * @var bool
+     */
+    protected $public;
+
+    /**
+     * @var bool
+     */
+    protected $internal;
+
+    /**
+     * @var bool
+     */
+    protected $protected;
+
+    /**
+     * @var bool
+     */
+    protected $private;
+
+    /**
+     * @var bool
+     */
+    protected $publicly_queryable;
+
+    /**
+     * @var bool
+     */
+    protected $show_in_admin_status_list;
+
+    /**
+     * @var bool
+     */
+    protected $show_in_admin_all_list;
+
+    /**
+     * @var bool
+     */
+    protected $_builtin;
 
     /**
      * - WP Statuses
      *
      * @see https://github.com/imath/wp-statuses#registering-a-custom-status
      */
-    protected $post_type = [];
-	protected $show_in_metabox_dropdown = null;
-	protected $show_in_inline_dropdown = null;
-	protected $show_in_press_this_dropdown = null;
-	protected $labels = [];
-	protected $dashicon = '';
+
+    /**
+     * @var array
+     */
+    protected $post_type;
+
+    /**
+     * @var bool
+     */
+	protected $show_in_metabox_dropdown;
+
+    /**
+     * @var bool
+     */
+	protected $show_in_inline_dropdown;
+
+    /**
+     * @var bool
+     */
+	protected $show_in_press_this_dropdown;
+
+    /**
+     * @var array
+     */
+	protected $labels;
+
+    /**
+     * @var string
+     */
+	protected $dashicon;
 
     /**
      * Private attributes list

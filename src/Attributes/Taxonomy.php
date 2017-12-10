@@ -10,33 +10,106 @@ class Taxonomy extends Attributes {
      * @access protected
      * @see https://developer.wordpress.org/reference/classes/wp_taxonomy/set_props/
      */
-    protected $labels                = [];
-    protected $description           = '';
-    protected $public                = true;
-    protected $publicly_queryable    = null;
-    protected $hierarchical          = false;
-    protected $show_ui               = null;
-    protected $show_in_menu          = null;
-    protected $show_in_nav_menus     = null;
-    protected $show_tagcloud         = null;
-    protected $show_in_quick_edit    = null;
-    protected $show_admin_column     = false;
-    protected $meta_box_cb           = null;
-    protected $capabilities          = [];
-    protected $rewrite               = true;
-    protected $query_var             = null; // If undefined, null
-    protected $update_count_callback = '';
-    protected $show_in_rest          = false;
-    protected $rest_base             = false;
-    protected $rest_controller_class = false;
-    protected $_builtin              = false;
 
     /**
-     * Object types
-     *
      * @var array
      */
-    protected $object_types = [];
+    protected $labels;
+
+    /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * @var bool
+     */
+    protected $public;
+
+    /**
+     * @var bool
+     */
+    protected $publicly_queryable;
+
+    /**
+     * @var bool
+     */
+    protected $hierarchical;
+
+    /**
+     * @var bool
+     */
+    protected $show_ui;
+
+    /**
+     * @var bool
+     */
+    protected $show_in_menu;
+
+    /**
+     * @var bool
+     */
+    protected $show_in_nav_menus;
+
+    /**
+     * @var bool
+     */
+    protected $show_tagcloud;
+
+    /**
+     * @var bool
+     */
+    protected $show_in_quick_edit;
+
+    /**
+     * @var bool
+     */
+    protected $show_admin_column;
+
+    /**
+     * @var callable|bool
+     */
+    protected $meta_box_cb;
+
+    /**
+     * @var array
+     */
+    protected $capabilities;
+
+    /**
+     * @var bool|array
+     */
+    protected $rewrite;
+
+    /**
+     * @var string
+     */
+    protected $query_var;
+
+    /**
+     * @var callable
+     */
+    protected $update_count_callback;
+
+    /**
+     * @var bool
+     */
+    protected $show_in_rest;
+
+    /**
+     * @var string
+     */
+    protected $rest_base;
+
+    /**
+     * @var string REST API Controller class name
+     */
+    protected $rest_controller_class;
+
+    /**
+     * @var bool
+     */
+    protected $_builtin;
 
     /**
      * Private attributes list
@@ -51,13 +124,23 @@ class Taxonomy extends Attributes {
      */
     protected static $stringAttrs = [
         'description',
+        'query_var',
     ];
 
     /**
      * Attributes list that must be boolean
      */
     protected static $booleanAttrs = [
-        //
+        'public',
+        'publicly_queryable',
+        'hierarchical',
+        'show_ui',
+        'show_in_menu',
+        'show_in_nav_menus',
+        'show_tagcloud',
+        'show_in_quick_edit',
+        'show_admin_column',
+        'show_in_rest',
     ];
 
 }

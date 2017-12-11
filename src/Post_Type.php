@@ -149,7 +149,7 @@ class Post_Type extends Entity {
                 $args['object_types'] = [];
             }
             if ( in_array( $this->name, $args['object_types'], true ) ) {
-                $args['object_types'] = $this->name;
+                $args['object_types'][] = $this->name;
             }
         }
         return $args;

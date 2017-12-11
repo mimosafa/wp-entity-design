@@ -66,10 +66,13 @@ abstract class Entity {
             return;
         }
         $attrClass = str_replace( __NAMESPACE__, __NAMESPACE__ . '\\Attributes', get_called_class() );
-        if ( ! is_object( $args ) || ! is_a( $args, $attrClass ) ) {
-            $args = new $attrClass( wp_parse_args( $args ) );
+        if ( is_a( $args,$attrClass ) ) {
+            $attrs = clone $args;
         }
-        return static::$instances[$name] = new static( $name, $args );
+        else {
+            $attrs = new $attrClass( wp_parse_args( $args ) );
+        }
+        return static::$instances[$name] = new static( $name, $attrs );
     }
 
     /**

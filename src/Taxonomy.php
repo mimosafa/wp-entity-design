@@ -114,7 +114,7 @@ class Taxonomy extends Entity {
             if ( ! isset( $args['taxonomies'] ) || ! is_array( $args['taxonomies'] ) ) {
                 $args['taxonomies'] = [];
             }
-            if ( in_array( $this->name, $args['taxonomies'], true ) ) {
+            if ( ! in_array( $this->name, $args['taxonomies'], true ) ) {
                 $args['taxonomies'][] = $this->name;
             }
         }

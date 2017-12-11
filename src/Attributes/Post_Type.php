@@ -107,7 +107,7 @@ class Post_Type extends Attributes {
     protected $has_archive;
 
     /**
-     * @var bool|string
+     * @var bool|string|array
      */
     protected $rewrite;
 
@@ -184,5 +184,30 @@ class Post_Type extends Attributes {
         'show_in_admin_bar',
         'delete_with_user',
     ];
+
+    /**
+     * Attribute setter
+     *
+     * @access public
+     *
+     * @param string  $key
+     * @param mixed[] $args
+     * @return void
+     */
+    public function set( string $key, ...$args ) {
+        if ( $key === 'has_archive' ) {
+            $bool = filter_var( $args[0], \FILTER_VALIDATE_BOOLEAN, \FILTER_NULL_ON_FAILURE );
+            if ( is_bool( $bool ) ) {
+                $this->has_archive = $bool;
+                return;
+            }
+            if ( $string = filter_var( $args[0] ) ) {
+                $this->has_archive = $string;
+                return;
+            }
+            return;
+        }
+        parent::set( $key, ...$args );
+    }
 
 }

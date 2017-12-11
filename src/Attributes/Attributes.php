@@ -27,8 +27,9 @@ abstract class Attributes {
      *
      * @param array $args
      */
-    public function __construct( array $args = [] ) {
+    public function __construct( $args = [] ) {
         if ( $args ) {
+            $args = wp_parse_args( $args );
             foreach ( $args as $key => $value ) {
                 $this->set( $key, $value );
             }
